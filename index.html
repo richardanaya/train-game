@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Day 1 · Taggart Dispatch</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23121416' width='32' height='32'/%3E%3Cpath stroke='%23c4844e' stroke-width='2' d='M4 12h24M4 20h24'/%3E%3Cpath stroke='%238a8178' stroke-width='2' d='M8 8v16M16 8v16M24 8v16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="mast">
+      <div class="title-block">
+        <p class="eyebrow">Taggart Transcontinental</p>
+        <h1>Yard dispatch</h1>
+      </div>
+      <dl class="tally" id="tally">
+        <div>
+          <dt>Day</dt>
+          <dd id="stat-day">01</dd>
+        </div>
+        <div>
+          <dt>Days left</dt>
+          <dd id="stat-left">14</dd>
+        </div>
+        <div>
+          <dt>Laid</dt>
+          <dd id="stat-laid">0/6</dd>
+        </div>
+      </dl>
+      <button type="button" class="ghost" id="start-over">Start over</button>
+    </header>
+
+    <div id="result" class="result" hidden role="status">
+      <p id="result-text"></p>
+      <button type="button" id="again">Run it again</button>
+    </div>
+
+    <main class="board">
+      <section class="panel yard" aria-labelledby="yard-title">
+        <div class="panel-h">
+          <h2 id="yard-title">Taggart yard</h2>
+          <p>Two locomotives. One job each. No. 8 works first.</p>
+        </div>
+
+        <div class="engines">
+          <article class="engine job-idle" id="engine-8">
+            <div class="engine-id">
+              <svg class="stencil" viewBox="0 0 96 42" aria-hidden="true">
+                <rect x="14" y="4" width="8" height="10" fill="currentColor"/>
+                <rect x="6" y="14" width="52" height="12" fill="currentColor"/>
+                <path fill="currentColor" fill-rule="evenodd" d="M58 6h26v20H58V6zm6 4h12v8H64V10z"/>
+                <rect x="2" y="26" width="90" height="3" fill="currentColor"/>
+                <circle cx="18" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+                <circle cx="38" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+                <circle cx="74" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+              </svg>
+              <h3>No. 8</h3>
+            </div>
+            <div class="jobs" role="group" aria-label="No. 8 assignment">
+              <button type="button" data-engine="8" data-job="idle" aria-pressed="true">Idle</button>
+              <button type="button" data-engine="8" data-job="iron" aria-pressed="false">Haul iron</button>
+              <button type="button" data-engine="8" data-job="copper" aria-pressed="false">Haul copper</button>
+              <button type="button" data-engine="8" data-job="rail" aria-pressed="false">Haul rail</button>
+            </div>
+            <p class="assign" id="assign-8">Assigned: idle</p>
+          </article>
+
+          <article class="engine job-idle" id="engine-11">
+            <div class="engine-id">
+              <svg class="stencil" viewBox="0 0 96 42" aria-hidden="true">
+                <rect x="14" y="4" width="8" height="10" fill="currentColor"/>
+                <rect x="6" y="14" width="52" height="12" fill="currentColor"/>
+                <path fill="currentColor" fill-rule="evenodd" d="M58 6h26v20H58V6zm6 4h12v8H64V10z"/>
+                <rect x="2" y="26" width="90" height="3" fill="currentColor"/>
+                <circle cx="18" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+                <circle cx="38" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+                <circle cx="74" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+              </svg>
+              <h3>No. 11</h3>
+            </div>
+            <div class="jobs" role="group" aria-label="No. 11 assignment">
+              <button type="button" data-engine="11" data-job="idle" aria-pressed="true">Idle</button>
+              <button type="button" data-engine="11" data-job="iron" aria-pressed="false">Haul iron</button>
+              <button type="button" data-engine="11" data-job="copper" aria-pressed="false">Haul copper</button>
+              <button type="button" data-engine="11" data-job="rail" aria-pressed="false">Haul rail</button>
+            </div>
+            <p class="assign" id="assign-11">Assigned: idle</p>
+          </article>
+        </div>
+
+        <button type="button" id="run-day">Run the day</button>
+      </section>
+
+      <section class="panel mine iron" aria-labelledby="iron-mine-title">
+        <div class="panel-h">
+          <h2 id="iron-mine-title">Iron mine</h2>
+          <p>One haul delivers 2 iron to the mill.</p>
+        </div>
+        <div class="pad" aria-hidden="true">
+          <span class="lump"></span>
+          <span class="lump"></span>
+          <span class="lump"></span>
+          <span class="lump"></span>
+          <span class="lump"></span>
+        </div>
+        <p class="pad-note">Ore on the pad, ready to load.</p>
+      </section>
+
+      <section class="panel mine copper" aria-labelledby="copper-mine-title">
+        <div class="panel-h">
+          <h2 id="copper-mine-title">Copper mine</h2>
+          <p>One haul delivers 1 copper to the mill.</p>
+        </div>
+        <div class="pad copper-pad" aria-hidden="true">
+          <span class="lump"></span>
+          <span class="lump"></span>
+          <span class="lump"></span>
+          <span class="lump"></span>
+        </div>
+        <p class="pad-note">Ore on the pad, ready to load.</p>
+      </section>
+
+      <section class="panel mill" aria-labelledby="mill-title">
+        <div class="panel-h">
+          <h2 id="mill-title">Steel mill</h2>
+          <p>Stockpile. Rail is not on the line until an engine hauls it.</p>
+        </div>
+        <dl class="stocks">
+          <div class="stock iron-stock">
+            <dt>Iron</dt>
+            <dd id="iron">00</dd>
+          </div>
+          <div class="stock copper-stock">
+            <dt>Copper</dt>
+            <dd id="copper">00</dd>
+          </div>
+          <div class="stock rail-stock">
+            <dt>Rail</dt>
+            <dd id="rail">00</dd>
+          </div>
+        </dl>
+        <p class="rule">Once, at day’s end: 2 iron and 1 copper roll 1 rail.</p>
+        <p id="forecast" class="forecast cold">By day’s end the mill does not roll. Floor: 0 iron, 0 copper, 0 rail.</p>
+      </section>
+
+      <section class="panel line" aria-labelledby="line-title">
+        <div class="panel-h">
+          <h2 id="line-title">John Galt Line</h2>
+          <p>Unfinished track. Six segments to lay.</p>
+        </div>
+        <div class="track" id="track">
+          <div class="segment" data-segment="1"><span class="railpair"></span><span class="num">1</span></div>
+          <div class="segment" data-segment="2"><span class="railpair"></span><span class="num">2</span></div>
+          <div class="segment" data-segment="3"><span class="railpair"></span><span class="num">3</span></div>
+          <div class="segment" data-segment="4"><span class="railpair"></span><span class="num">4</span></div>
+          <div class="segment" data-segment="5"><span class="railpair"></span><span class="num">5</span></div>
+          <div class="segment" data-segment="6"><span class="railpair"></span><span class="num">6</span></div>
+        </div>
+        <p id="line-count" class="line-count">0 of 6 laid</p>
+      </section>
+
+      <section class="panel log-panel" aria-labelledby="log-title">
+        <div class="panel-h">
+          <h2 id="log-title">Morning</h2>
+        </div>
+        <ul id="log" aria-live="polite">
+          <li>Both engines are in the yard. Assign each one, then run the day.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+  <noscript>This dispatch board needs JavaScript in the browser. No server is required.</noscript>
+  <script src="game.js"></script>
+</body>
+</html>
