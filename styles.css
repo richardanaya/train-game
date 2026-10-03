@@ -175,7 +175,7 @@ button:focus-visible {
 
 .board {
   display: grid;
-  grid-template-columns: minmax(280px, 1.25fr) minmax(190px, 0.85fr) minmax(240px, 1fr) minmax(250px, 1.05fr);
+  grid-template-columns: minmax(270px, 1.15fr) minmax(180px, 0.78fr) minmax(230px, 0.95fr) minmax(300px, 1.25fr);
   grid-template-areas:
     "yard iron mill line"
     "yard copper mill line"
@@ -214,10 +214,29 @@ button:focus-visible {
   font-size: 13px;
 }
 
+.mine {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mine .pad {
+  margin-top: auto;
+}
+
 .mine.iron { box-shadow: inset 0 3px 0 #a85b3c; }
 .mine.copper { box-shadow: inset 0 3px 0 var(--copper); }
-.mill { box-shadow: inset 3px 0 0 #8d949c; }
-.line { box-shadow: inset 3px 0 0 var(--copper); }
+.mill {
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 3px 0 0 #8d949c;
+}
+
+.line {
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 3px 0 0 var(--copper);
+}
 .yard { box-shadow: inset 3px 0 0 #5c656e; }
 
 .engine {
@@ -428,32 +447,62 @@ button:focus-visible {
   color: var(--muted);
 }
 
+.rack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 7px;
+  margin-top: auto;
+  min-height: 88px;
+  padding-top: 16px;
+}
+
+.rack .bar {
+  display: block;
+  height: 8px;
+  background: linear-gradient(#f2f4f6, #9aa3ab 45%, #6e777f);
+  border: 1px solid #4e575f;
+}
+
+.rack-empty {
+  margin: 0;
+  color: #8e979f;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .track {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
   gap: 6px;
-  margin-top: 12px;
+  margin-top: 14px;
+  min-height: 196px;
 }
 
 .segment {
   position: relative;
-  min-height: 72px;
-  border: 1px solid #2e2926;
-  background-color: #161311;
-  background-image: radial-gradient(rgba(92, 80, 70, 0.85) 0.7px, transparent 0.75px);
-  background-size: 7px 7px;
+  min-height: 92px;
+  border: 1px solid #6d6256;
+  background-color: #3a322b;
+  background-image: radial-gradient(rgba(214, 196, 172, 0.45) 0.7px, transparent 0.8px);
+  background-size: 5px 5px;
 }
 
 .segment .num {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 4px;
+  bottom: 5px;
   text-align: center;
-  color: #6f675f;
+  color: #efe6da;
   font-family: "Liberation Mono", "Courier New", monospace;
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 
 .railpair {
@@ -461,25 +510,26 @@ button:focus-visible {
 }
 
 .segment.laid {
-  border-color: #5c534c;
-  background-color: #241e1a;
+  border-color: var(--copper);
+  background-color: #2a241e;
   background-image: repeating-linear-gradient(
     90deg,
-    #2c241e 0 7px,
-    #4a3c32 7px 11px
+    #2a231c 0 6px,
+    #5a4334 6px 10px
   );
 }
 
 .segment.laid .railpair {
   display: block;
   position: absolute;
-  left: 7px;
-  right: 7px;
-  top: 18px;
-  height: 22px;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  height: 28px;
+  transform: translateY(-70%);
   background:
-    linear-gradient(#e6eaee, #8e969e) 0 0 / 100% 4px no-repeat,
-    linear-gradient(#e6eaee, #8e969e) 0 100% / 100% 4px no-repeat;
+    linear-gradient(#f4f6f8, #8e969e) 0 0 / 100% 5px no-repeat,
+    linear-gradient(#f4f6f8, #8e969e) 0 100% / 100% 5px no-repeat;
 }
 
 .segment.laid .num {

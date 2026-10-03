@@ -167,6 +167,24 @@
     document.getElementById("run-day").focus();
   }
 
+  function renderRack(rail) {
+    var rack = document.getElementById("rack");
+    rack.replaceChildren();
+    if (rail <= 0) {
+      var empty = document.createElement("p");
+      empty.className = "rack-empty";
+      empty.textContent = "Rail rack empty";
+      rack.appendChild(empty);
+      return;
+    }
+    var shown = Math.min(rail, 6);
+    for (var i = 0; i < shown; i += 1) {
+      var bar = document.createElement("span");
+      bar.className = "bar";
+      rack.appendChild(bar);
+    }
+  }
+
   function render(dayJustRan) {
     var left = daysLeft(state);
     document.getElementById("stat-day").textContent = pad(state.day);
@@ -176,6 +194,7 @@
     document.getElementById("copper").textContent = pad(state.copper);
     document.getElementById("rail").textContent = pad(state.rail);
     document.getElementById("line-count").textContent = state.segments + " of " + LINE_GOAL + " laid";
+    renderRack(state.rail);
     document.getElementById("log-title").textContent = state.logTitle;
 
     var tally = document.getElementById("tally");
@@ -228,7 +247,10 @@
     if (state.outcome === "win") {
       result.hidden = false;
       result.classList.add("win");
-      resultText.textContent = "6 segments are laid on the John Galt Line. Finished on day " + state.day + ", with " + left + " day" + (left === 1 ? "" : "s") + " left.";
+      var when = left === 0
+        ? "Finished on day " + state.day + "."
+        : "Finished on day " + state.day + ", with " + left + " " + (left === 1 ? "day" : "days") + " left.";
+      resultText.textContent = "6 segments are laid on the John Galt Line. " + when;
       document.title = "Line open · Taggart Dispatch";
     } else if (state.outcome === "loss") {
       result.hidden = false;
